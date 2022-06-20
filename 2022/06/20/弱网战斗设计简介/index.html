@@ -20,30 +20,37 @@
     var CONFIG = {"hostname":"paperlens02.github.io","root":"/paperlens.github.io/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="也就是说">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Paper">
-<meta property="og:url" content="https://paperlens02.github.io/paperlens.github.io/index.html">
+  <meta name="description" content="一、需求分析1.弱网PVE弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。 2.PVPPVP战斗必然不是弱网的；但其战斗逻辑本身与PVE是类似的，所以我们并不希望为PVP再另外实现一套战斗通讯甚至战斗逻">
+<meta property="og:type" content="article">
+<meta property="og:title" content="弱网战斗设计简介">
+<meta property="og:url" content="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/index.html">
 <meta property="og:site_name" content="Paper">
-<meta property="og:description" content="也就是说">
+<meta property="og:description" content="一、需求分析1.弱网PVE弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。 2.PVPPVP战斗必然不是弱网的；但其战斗逻辑本身与PVE是类似的，所以我们并不希望为PVP再另外实现一套战斗通讯甚至战斗逻">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/paperlens.github/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/pve.png">
+<meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/paperlens.github/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/pvp.png">
+<meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/paperlens.github/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/logicExe.png">
+<meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/paperlens.github/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/logics.png">
+<meta property="article:published_time" content="2022-06-20T07:57:50.000Z">
+<meta property="article:modified_time" content="2022-06-20T08:03:27.121Z">
 <meta property="article:author" content="paperlens">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://paperlens02.github.io/paperlens.github.io/paperlens.github/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/pve.png">
 
-<link rel="canonical" href="https://paperlens02.github.io/paperlens.github.io/">
+<link rel="canonical" href="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Paper</title>
+  <title>弱网战斗设计简介 | Paper</title>
   
 
 
@@ -146,9 +153,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -164,10 +172,9 @@
       <meta itemprop="name" content="Paper">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">弱网战斗设计简介</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          弱网战斗设计简介
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -204,7 +211,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="一、需求分析"><a href="#一、需求分析" class="headerlink" title="一、需求分析"></a>一、需求分析</h1><h3 id="1-弱网PVE"><a href="#1-弱网PVE" class="headerlink" title="1.弱网PVE"></a>1.弱网PVE</h3><p>弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。</p>
+        <h1 id="一、需求分析"><a href="#一、需求分析" class="headerlink" title="一、需求分析"></a>一、需求分析</h1><h3 id="1-弱网PVE"><a href="#1-弱网PVE" class="headerlink" title="1.弱网PVE"></a>1.弱网PVE</h3><p>弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。</p>
 <h3 id="2-PVP"><a href="#2-PVP" class="headerlink" title="2.PVP"></a>2.PVP</h3><p>PVP战斗必然不是弱网的；但其战斗逻辑本身与PVE是类似的，所以我们并不希望为PVP再另外实现一套战斗通讯甚至战斗逻辑。因此<font color="red"><strong>弱网PVE战斗的设计需要能够支持强通讯的PVP战斗</strong></font>。</p>
 <p>#二、基础设计思路<br>###1.Lua战斗模块<br>为了客户端自行实现战斗逻辑、服务器支持同逻辑验证这个基本需求，我们需要<font color="red">** 服务器和客户端共用同一套战斗代码**</font>。由于本项目客户端逻辑模块由Lua编写，且已有LuaJit解释器可以实现服务器Java代码与Lua代码的通讯，故该战斗代码模块使用Lua实现。<br>为实现各项需求，对Lua战斗模块会有以下设计要求：<br>####1.1在内部完成几乎所有的数值运算<br>在不同语言、不同运行环境下，编译器对浮点数的精度处理是有差异的。为了让不同环境下的浮点数运算结果一致，必须将所有数值转换为定点数。使用定点数会有几种做法，这里不做赘述；但在业务逻辑中强制要求使用定点数势必会导致代码更难维护、更不易读，甚至更容易出错，以及些许的性能问题。为了拒绝大量使用定点数，我们就必须保证大部分运算的所处环境是一致的，而最适宜的环境就是在Lua战斗模块内。所以在基础设计中，<font color="red">** Lua战斗模块承担了包括数学运算、随机算法、读表在内的所有数值运算内容；从外界获取的数值仅有基础英雄属性**</font>。<br>####1.2支持结果验证和过程同步<br>为实现防作弊需求，需要<font color="red">** Lua对同一场战斗同操作的运行过程和最终结果必须保持一致**</font>，从而实现结果验证。为此，我们需要实现一个稳定的随机数算法和种子演变方法，它们仅受战斗最初种子和玩家操作的影响，且影响结果是一定的；为同步玩家操作，又需要为玩家操作生成一个唯一可验证的标识符，将其作为凭据实现过程同步。具体实现方法见下文。<br>####1.3可同时运行多场战斗<br>由于Lua负责了战斗数据的暂存和过程验证，所以Lua必须支持穿插着运行多场战斗。但Lua是不支持多线程的语言，故如果由Lua管理战斗的创建，在服务器多线程同时调用时可能会创建出key值完全相同的战斗。这也就意味着<font color="red">** Lua战斗模块需要根据服务器提供的唯一key和seed创建战斗数据，存储战斗数据，且战斗逻辑是基于数据的**</font>。另外需要特别注意的是，Lua是单线程的，因此需要服务器将Lua模块作为单例使用。<br>####1.4异常处理<br>客户端至少需要支持断线重连；在复杂情况下可能需要支持预测、回滚、校正等机制。具体参照帧同步思路。<br>####1.5性能要求<br>假设一个服务器上3000人同时在线，全都在跑战斗；客户端3分钟会跑完一场10<del>20回合的战斗。这就需要Lua运行一场10</del>20回合的战斗逻辑耗时低于60毫秒，在逻辑不出严重问题的前提下这是很容易实现的；但考虑到服务器java调用Lua过程中的损耗，就必须精简接口，并提前确定服务器侧的一些策略，以降低调用Lua耗时高所导致的风险。<br>###2.PVE通讯</p>
 <img src="/paperlens.github.io/paperlens.github/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/pve.png" class title="tips">
@@ -230,428 +237,30 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-- 创建战斗 传入与服务器约定好的战斗信息，返回序列化字符串</span><br><span class="line">function G_CreatePVEBattle(initTable, heroList)</span><br><span class="line">	return BattleServerProtoManager:GetInstance():CreatePVEBattle(initTable.missionId, initTable.key, initTable.seed, heroList);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">-- 销毁战斗</span><br><span class="line">function G_DestroyPVEBattle(key)</span><br><span class="line">	BattleServerProtoManager:GetInstance():DestroyPVEBattle(key);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">-- 验证战斗（任意战斗过程中） 传入战斗key和验证字符串，返回验证结果和序列化字符串</span><br><span class="line">-- 该序列化字符串可用于客户端断线重连</span><br><span class="line">function G_VerifyBattle(key, opStr, resultStr)</span><br><span class="line">	return BattleServerProtoManager:GetInstance():VerifyBattle(key, opStr, resultStr);</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>#五、AI设计<br>###1.功能实现<br>###2.基于类型理论和数据建模的正确性验证系统<br>目的：<br>对策划配置进行正确性验证<br>背景：<br>面向对象的做法在表达约束时逻辑复杂，且难以支持验证；实体关系的做法亦不支持验证；使用逻辑数据（或是多维的）则过于复杂，对小型项目负重过大；这里基于类型理论，参考<a target="_blank" rel="noopener" href="http://www.jos.org.cn/html/2018/6/5460.htm">DDML语言和DDMM方法</a>，设计一套更适用于小型项目，易于理解，适应快速需求变化的建模和验证环境。验证方法需要具备可靠性、完备性和可终止性。<br>做法：<br>定义类型、项及它们的语义；定义它们形成环境的方法；定义类型间的规则（结构类、关系类、等等）<br>由实际需求定义类型原子、数据元、数据元目录、数据元目录列表<br>根据上述定义设计类型检查算法<br>###3.遍历式的自动测试系统<br>#六、针对需求变化的适应性</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%9F%BA%E7%A1%80%E6%96%B9%E6%A1%88/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/paperlens.github.io/images/avatar.gif">
-      <meta itemprop="name" content="paperlens">
-      <meta itemprop="description" content="也就是说">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Paper">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/paperlens.github.io/2022/06/20/%E5%9F%BA%E7%A1%80%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">基础方案</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-20 14:23:07 / 修改时间：14:23:33" itemprop="dateCreated datePublished" datetime="2022-06-20T14:23:07+08:00">2022-06-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/paperRPG/" itemprop="url" rel="index"><span itemprop="name">paperRPG</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/paperRPG/%E6%96%87%E6%A1%A3/" itemprop="url" rel="index"><span itemprop="name">文档</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>待编写</p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/paperlens.github.io/2022/06/20/%E5%9F%BA%E7%A1%80%E6%96%B9%E6%A1%88/" rel="prev" title="基础方案">
+      <i class="fa fa-chevron-left"></i> 基础方案
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/20/hexo%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/paperlens.github.io/images/avatar.gif">
-      <meta itemprop="name" content="paperlens">
-      <meta itemprop="description" content="也就是说">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Paper">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/paperlens.github.io/2022/06/20/hexo%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">hexo环境配置</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-20 14:21:55 / 修改时间：14:22:23" itemprop="dateCreated datePublished" datetime="2022-06-20T14:21:55+08:00">2022-06-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>待编写</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%85%89%E7%85%A7%E8%B4%B4%E5%9B%BE%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%8F%8A%E8%B8%A9%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/paperlens.github.io/images/avatar.gif">
-      <meta itemprop="name" content="paperlens">
-      <meta itemprop="description" content="也就是说">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Paper">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/paperlens.github.io/2022/06/20/%E5%85%89%E7%85%A7%E8%B4%B4%E5%9B%BE%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%8F%8A%E8%B8%A9%E5%9D%91/" class="post-title-link" itemprop="url">光照贴图动态加载及踩坑</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-20 11:33:33 / 修改时间：11:44:40" itemprop="dateCreated datePublished" datetime="2022-06-20T11:33:33+08:00">2022-06-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="LightingMode的官方解释整理："><a href="#LightingMode的官方解释整理：" class="headerlink" title="LightingMode的官方解释整理："></a>LightingMode的官方解释整理：</h2><h3 id="Subtractive"><a href="#Subtractive" class="headerlink" title="Subtractive"></a>Subtractive</h3><table>
-<thead>
-<tr>
-<th>Static</th>
-<th>Dynamic</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>直接光照：烘焙Lightmap</td>
-<td>直接光照：实时的</td>
-</tr>
-<tr>
-<td>间接光照：烘焙Lightmap</td>
-<td>间接光照：烘焙LightProbes</td>
-</tr>
-<tr>
-<td>来自static物件的所有阴影：烘焙Lightmap</td>
-<td>来自static物件的所有阴影：烘焙LightProbes</td>
-</tr>
-<tr>
-<td>来自dynamic物件的主灯光阴影：实时shadowmap(distance内)</td>
-<td>来自dynamic物件的主灯光阴影：实时shadowmap(distance内)</td>
-</tr>
-</tbody></table>
-<p>LIGHTMAP_SHADOW_MIXING宏不会开启。</p>
-<h3 id="Baked-Indirect"><a href="#Baked-Indirect" class="headerlink" title="Baked Indirect"></a>Baked Indirect</h3><table>
-<thead>
-<tr>
-<th>Static</th>
-<th>Dynamic</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>直接光照：实时的</td>
-<td>直接光照：实时的</td>
-</tr>
-<tr>
-<td>间接光照：烘焙Lightmap</td>
-<td>间接光照：烘焙LightProbes</td>
-</tr>
-<tr>
-<td>来自static物件的所有阴影：实时shadowmap(distance内)</td>
-<td>来自static物件的所有阴影：实时shadowmap(distance内)</td>
-</tr>
-<tr>
-<td>来自dynamic物件的所有阴影：实时shadowmap(distance内)</td>
-<td>来自dynamic物件的主灯光阴影：实时shadowmap(distance内)</td>
-</tr>
-</tbody></table>
-<p>LIGHTMAP_SHADOW_MIXING宏开启。</p>
-<h3 id="Shadowmask"><a href="#Shadowmask" class="headerlink" title="Shadowmask"></a>Shadowmask</h3><table>
-<thead>
-<tr>
-<th>Static</th>
-<th>Dynamic</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>直接光照：实时的</td>
-<td>直接光照：实时的</td>
-</tr>
-<tr>
-<td>间接光照：烘焙Lightmap</td>
-<td>间接光照：烘焙LightProbes</td>
-</tr>
-<tr>
-<td>来自static物件的所有阴影：烘焙shadowmask(distance内)</td>
-<td>来自static物件的所有阴影：LightProbes(distance内)</td>
-</tr>
-<tr>
-<td>来自static物件的所有阴影：烘焙shadowmask(distance外)</td>
-<td>来自static物件的所有阴影：烘焙shadowmask(distance外)</td>
-</tr>
-<tr>
-<td>来自dynamic物件的所有阴影：实时shadowmap(distance内)</td>
-<td>来自dynamic物件的主灯光阴影：实时shadowmap(distance内)</td>
-</tr>
-</tbody></table>
-<p>LIGHTMAP_SHADOW_MIXING宏开启，SHADOWS_SHADOWMASK开启</p>
-<h3 id="Distance-Shadowmask"><a href="#Distance-Shadowmask" class="headerlink" title="Distance Shadowmask"></a>Distance Shadowmask</h3><table>
-<thead>
-<tr>
-<th>Static</th>
-<th>Dynamic</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>直接光照：实时的</td>
-<td>直接光照：实时的</td>
-</tr>
-<tr>
-<td>间接光照：烘焙Lightmap</td>
-<td>间接光照：烘焙LightProbes</td>
-</tr>
-<tr>
-<td>来自static物件的所有阴影：实时shadowmap(distance内)</td>
-<td>来自static物件的所有阴影：实时shadowmap(distance内)</td>
-</tr>
-<tr>
-<td>来自static物件的所有阴影：烘焙shadowmask(distance外)</td>
-<td>来自static物件的所有阴影：烘焙shadowmask(distance外)</td>
-</tr>
-<tr>
-<td>来自dynamic物件的所有阴影：实时shadowmap(distance内)</td>
-<td>来自dynamic物件的主灯光阴影：实时shadowmap(distance内)</td>
-</tr>
-</tbody></table>
-<p>LIGHTMAP_SHADOW_MIXING宏关闭，SHADOWS_SHADOWMASK开启</p>
-<h2 id="运行中ShadowMask不生效相关踩坑："><a href="#运行中ShadowMask不生效相关踩坑：" class="headerlink" title="运行中ShadowMask不生效相关踩坑："></a>运行中ShadowMask不生效相关踩坑：</h2><p>在原美术场景中烘焙ShadowMask效果均正常，而在Game场景中加载场景Prefab和ShadowMask后不生效。经检查ShadowMask加载正常，offset设置正常，但FrameDebugger中发现ShadowMask相关宏没有开启。</p>
-<p><strong>根据“运行中光照相关重建可能与光源物件有关”进行测试：</strong></p>
-<ol>
-<li>在Game场景中创建一个能烘出shadowmask的环境（应至少包括MixedLight，静态物体，相机），烘焙。</li>
-<li>刚刚用于烘焙的物件、相机等等均可以删除；MixedLight不可以隐藏或删除，不可以有任何可能导致MixedLight断引用的操作（如unpackPrefab），其CullingMask也必须包含运行中加载出的场景Prefab的tag（Everything即可），但可以修改其颜色、位置等等。</li>
-<li>运行中加载任意场景Prefab（其中可以不带mixedLight等等）、shadowmask正常；FrameDebugger中看到的渲染都很合理。</li>
-</ol>
-<p><strong>结论：必须存在一个“曾用于烘焙”的MixedLight，且渲染的物体必须有受该MixedLight的光照，渲染时才会触发SHADOW_SHADOWMASKS和LIGHTMAP_SHADOW_MIXING宏并正常渲染shadowmask</strong></p>
-<p>最终解决方案：在Game场景中放一个默认的MixedLight，刚好它也代替各个场景自身的MixedLight，省的打进prefab里了；场景MixedLight的方向等等属性可以通过工具同步到运行中；如果以后有场景需要多个MixedLight，可以再研究能不能支持。</p>
-<p>关于”运行中光照相关重建可能与光源物件有关”这个猜测，在unity中有相关tips可以印证：</p>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/20/hexo%E7%9B%B8%E5%85%B3%E5%A4%96%E9%93%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/paperlens.github.io/images/avatar.gif">
-      <meta itemprop="name" content="paperlens">
-      <meta itemprop="description" content="也就是说">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Paper">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/paperlens.github.io/2022/06/20/hexo%E7%9B%B8%E5%85%B3%E5%A4%96%E9%93%BE/" class="post-title-link" itemprop="url">hexo相关外链</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-20 11:08:47 / 修改时间：14:21:23" itemprop="dateCreated datePublished" datetime="2022-06-20T11:08:47+08:00">2022-06-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://www.runoob.com/markdown/md-tutorial.html">菜鸟教程_Markdown</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/anthony-wang0228/articles/11461321.html">hexo发布文章</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -704,6 +313,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">一、需求分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%B1%E7%BD%91PVE"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.弱网PVE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-PVP"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.PVP</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
