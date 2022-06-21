@@ -167,7 +167,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/paperlens.github.io/2022/06/21/TMP%E6%BA%90%E7%A0%81%E9%AD%94%E6%94%B9-%E5%AE%9E%E7%8E%B0%E9%A2%9D%E5%A4%96%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">TMP源码魔改_实现额外功能</a>
+            <a href="/paperlens.github.io/2022/06/21/TMP%E6%BA%90%E7%A0%81%E9%AD%94%E6%94%B9-%E5%AE%9E%E7%8E%B0%E9%A2%9D%E5%A4%96%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">TMP源码魔改_实现额外功能（如不同字体复用同材质）</a>
         </h2>
 
         <div class="post-meta">
@@ -178,7 +178,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-06-21 14:51:39 / 修改时间：15:12:05" itemprop="dateCreated datePublished" datetime="2022-06-21T14:51:39+08:00">2022-06-21</time>
+              <time title="创建时间：2022-06-21 14:51:39 / 修改时间：15:46:41" itemprop="dateCreated datePublished" datetime="2022-06-21T14:51:39+08:00">2022-06-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -205,7 +205,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>啊</p>
+          <p><a target="_blank" rel="noopener" href="https://github.com/paperlens02/customTMP">魔改后的TMP源码(private)</a></p>
+<h1 id="魔改默认创建的TMP组件"><a href="#魔改默认创建的TMP组件" class="headerlink" title="魔改默认创建的TMP组件"></a>魔改默认创建的TMP组件</h1><p>在TMPro_CreateObjectMenu中魔改即可</p>
+<h1 id="汉字错误换行问题"><a href="#汉字错误换行问题" class="headerlink" title="汉字错误换行问题"></a>汉字错误换行问题</h1><p>编写TMP的老外似乎不是很理解汉字相关的语言逻辑，TMP的换行逻辑虽然对汉字做了特殊优化，但结果仍有错误。例如”啊abc”会被认为是一个整词，会按照英文习惯放在一起换行。此改动解决这种错误换行问题。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/paperlens.github.io/2022/06/21/TMP%E6%BA%90%E7%A0%81%E9%AD%94%E6%94%B9-%E5%AE%9E%E7%8E%B0%E9%A2%9D%E5%A4%96%E5%8A%9F%E8%83%BD/#more" rel="contents">
