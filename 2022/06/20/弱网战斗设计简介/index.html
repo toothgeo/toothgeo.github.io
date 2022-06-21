@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"paperlens02.github.io","root":"/paperlens.github.io/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="需求分析">
+  <meta name="description" content="需求分析弱网PVE弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。 PVPPVP战斗必然不是弱网的；但其战斗逻辑本身与PVE是类似的，所以我们并不希望为PVP再另外实现一套战斗通讯甚至战斗逻辑。因此 弱">
 <meta property="og:type" content="article">
 <meta property="og:title" content="弱网战斗设计简介">
 <meta property="og:url" content="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/index.html">
 <meta property="og:site_name" content="Paper">
-<meta property="og:description" content="需求分析">
+<meta property="og:description" content="需求分析弱网PVE弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。 PVPPVP战斗必然不是弱网的；但其战斗逻辑本身与PVE是类似的，所以我们并不希望为PVP再另外实现一套战斗通讯甚至战斗逻辑。因此 弱">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/pve.png">
 <meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/pvp.png">
 <meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/logicExe.png">
 <meta property="og:image" content="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/logics.png">
 <meta property="article:published_time" content="2022-06-20T07:57:50.000Z">
-<meta property="article:modified_time" content="2022-06-21T02:13:07.747Z">
+<meta property="article:modified_time" content="2022-06-21T07:15:47.976Z">
 <meta property="article:author" content="paperlens">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://paperlens02.github.io/paperlens.github.io/2022/06/20/%E5%BC%B1%E7%BD%91%E6%88%98%E6%96%97%E8%AE%BE%E8%AE%A1%E7%AE%80%E4%BB%8B/pve.png">
@@ -191,7 +191,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-21 10:13:07" itemprop="dateModified" datetime="2022-06-21T10:13:07+08:00">2022-06-21</time>
+                <time title="修改时间：2022-06-21 15:15:47" itemprop="dateModified" datetime="2022-06-21T15:15:47+08:00">2022-06-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -218,9 +218,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><span id="more"></span>
-<h2 id="弱网PVE"><a href="#弱网PVE" class="headerlink" title="弱网PVE"></a>弱网PVE</h2><p>弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。</p>
+        <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><h2 id="弱网PVE"><a href="#弱网PVE" class="headerlink" title="弱网PVE"></a>弱网PVE</h2><p>弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。</p>
 <h2 id="PVP"><a href="#PVP" class="headerlink" title="PVP"></a>PVP</h2><p>PVP战斗必然不是弱网的；但其战斗逻辑本身与PVE是类似的，所以我们并不希望为PVP再另外实现一套战斗通讯甚至战斗逻辑。因此<font color="red"> <strong>弱网PVE战斗的设计需要能够支持强通讯的PVP战斗</strong> </font>。</p>
+<span id="more"></span>
+
+
 <h1 id="基础设计思路"><a href="#基础设计思路" class="headerlink" title="基础设计思路"></a>基础设计思路</h1><h2 id="Lua战斗模块"><a href="#Lua战斗模块" class="headerlink" title="Lua战斗模块"></a>Lua战斗模块</h2><p>为了客户端自行实现战斗逻辑、服务器支持同逻辑验证这个基本需求，我们需要<font color="red"> <strong>服务器和客户端共用同一套战斗代码</strong> </font>。由于本项目客户端逻辑模块由Lua编写，且已有LuaJit解释器可以实现服务器Java代码与Lua代码的通讯，故该战斗代码模块使用Lua实现。<br>为实现各项需求，对Lua战斗模块会有以下设计要求：</p>
 <h3 id="在内部完成几乎所有的数值运算"><a href="#在内部完成几乎所有的数值运算" class="headerlink" title="在内部完成几乎所有的数值运算"></a>在内部完成几乎所有的数值运算</h3><p>在不同语言、不同运行环境下，编译器对浮点数的精度处理是有差异的。为了让不同环境下的浮点数运算结果一致，必须将所有数值转换为定点数。使用定点数会有几种做法，这里不做赘述；但在业务逻辑中强制要求使用定点数势必会导致代码更难维护、更不易读，甚至更容易出错，以及些许的性能问题。为了拒绝大量使用定点数，我们就必须保证大部分运算的所处环境是一致的，而最适宜的环境就是在Lua战斗模块内。所以在基础设计中，<font color="red"> <strong>Lua战斗模块承担了包括数学运算、随机算法、读表在内的所有数值运算内容；从外界获取的数值仅有基础英雄属性</strong> </font>。</p>
 <h3 id="支持结果验证和过程同步"><a href="#支持结果验证和过程同步" class="headerlink" title="支持结果验证和过程同步"></a>支持结果验证和过程同步</h3><p>为实现防作弊需求，需要<font color="red"> <strong>Lua对同一场战斗同操作的运行过程和最终结果必须保持一致</strong> </font>，从而实现结果验证。为此，我们需要实现一个稳定的随机数算法和种子演变方法，它们仅受战斗最初种子和玩家操作的影响，且影响结果是一定的；为同步玩家操作，又需要为玩家操作生成一个唯一可验证的标识符，将其作为凭据实现过程同步。具体实现方法见下文。</p>
