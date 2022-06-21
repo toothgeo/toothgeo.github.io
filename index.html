@@ -176,10 +176,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-06-20 15:57:50 / 修改时间：16:33:19" itemprop="dateCreated datePublished" datetime="2022-06-20T15:57:50+08:00">2022-06-20</time>
+              <time title="创建时间：2022-06-20 15:57:50" itemprop="dateCreated datePublished" datetime="2022-06-20T15:57:50+08:00">2022-06-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-21 10:07:06" itemprop="dateModified" datetime="2022-06-21T10:07:06+08:00">2022-06-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -205,7 +211,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><h2 id="弱网PVE"><a href="#弱网PVE" class="headerlink" title="弱网PVE"></a>弱网PVE</h2><p>弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。</p>
+          <span id="more"></span>
+<h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><h2 id="弱网PVE"><a href="#弱网PVE" class="headerlink" title="弱网PVE"></a>弱网PVE</h2><p>弱网PVE战斗，即客户端仅在战斗开始&#x2F;结束时与服务器进行强通讯（服务器返回前等待），在战斗中靠自己进行数值计算、随机触发等等功能。在此基础上，仍需保证与传统强通讯战斗相同程度的防作弊验证、数字运算正确性；也需要支持断线重连等功能的实现。</p>
 <h2 id="PVP"><a href="#PVP" class="headerlink" title="PVP"></a>PVP</h2><p>PVP战斗必然不是弱网的；但其战斗逻辑本身与PVE是类似的，所以我们并不希望为PVP再另外实现一套战斗通讯甚至战斗逻辑。因此<font color="red"> <strong>弱网PVE战斗的设计需要能够支持强通讯的PVP战斗</strong> </font>。</p>
 <h1 id="基础设计思路"><a href="#基础设计思路" class="headerlink" title="基础设计思路"></a>基础设计思路</h1><h2 id="Lua战斗模块"><a href="#Lua战斗模块" class="headerlink" title="Lua战斗模块"></a>Lua战斗模块</h2><p>为了客户端自行实现战斗逻辑、服务器支持同逻辑验证这个基本需求，我们需要<font color="red"> <strong>服务器和客户端共用同一套战斗代码</strong> </font>。由于本项目客户端逻辑模块由Lua编写，且已有LuaJit解释器可以实现服务器Java代码与Lua代码的通讯，故该战斗代码模块使用Lua实现。<br>为实现各项需求，对Lua战斗模块会有以下设计要求：</p>
 <h3 id="在内部完成几乎所有的数值运算"><a href="#在内部完成几乎所有的数值运算" class="headerlink" title="在内部完成几乎所有的数值运算"></a>在内部完成几乎所有的数值运算</h3><p>在不同语言、不同运行环境下，编译器对浮点数的精度处理是有差异的。为了让不同环境下的浮点数运算结果一致，必须将所有数值转换为定点数。使用定点数会有几种做法，这里不做赘述；但在业务逻辑中强制要求使用定点数势必会导致代码更难维护、更不易读，甚至更容易出错，以及些许的性能问题。为了拒绝大量使用定点数，我们就必须保证大部分运算的所处环境是一致的，而最适宜的环境就是在Lua战斗模块内。所以在基础设计中，<font color="red"> <strong>Lua战斗模块承担了包括数学运算、随机算法、读表在内的所有数值运算内容；从外界获取的数值仅有基础英雄属性</strong> </font>。</p>
@@ -499,10 +506,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-06-20 11:33:33 / 修改时间：16:29:57" itemprop="dateCreated datePublished" datetime="2022-06-20T11:33:33+08:00">2022-06-20</time>
+              <time title="创建时间：2022-06-20 11:33:33" itemprop="dateCreated datePublished" datetime="2022-06-20T11:33:33+08:00">2022-06-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-21 10:06:59" itemprop="dateModified" datetime="2022-06-21T10:06:59+08:00">2022-06-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -528,7 +541,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="LightingMode的官方解释整理："><a href="#LightingMode的官方解释整理：" class="headerlink" title="LightingMode的官方解释整理："></a>LightingMode的官方解释整理：</h2><h3 id="Subtractive"><a href="#Subtractive" class="headerlink" title="Subtractive"></a>Subtractive</h3><table>
+          <span id="more"></span>
+<h2 id="LightingMode的官方解释整理："><a href="#LightingMode的官方解释整理：" class="headerlink" title="LightingMode的官方解释整理："></a>LightingMode的官方解释整理：</h2><h3 id="Subtractive"><a href="#Subtractive" class="headerlink" title="Subtractive"></a>Subtractive</h3><table>
 <thead>
 <tr>
 <th>Static</th>
