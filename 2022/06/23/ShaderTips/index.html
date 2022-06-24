@@ -20,17 +20,21 @@
     var CONFIG = {"hostname":"paperlens02.github.io","root":"/paperlens.github.io/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="一个一个一个一个一个一个一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Paper">
-<meta property="og:url" content="https://paperlens02.github.io/paperlens.github.io/archives/2022/06/page/2/index.html">
+  <meta name="description" content="方法&#x2F;函数&#x2F;库   . .    saturate Saturate is a function that clamps it’s input between 0 and 1.   normalize float normalize(float x)   vec2 normalize(vec2 x)   vec3 normalize(vec3 x)   vec4 normali">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ShaderTips">
+<meta property="og:url" content="https://paperlens02.github.io/paperlens.github.io/2022/06/23/ShaderTips/index.html">
 <meta property="og:site_name" content="Paper">
-<meta property="og:description" content="一个一个一个一个一个一个一个">
+<meta property="og:description" content="方法&#x2F;函数&#x2F;库   . .    saturate Saturate is a function that clamps it’s input between 0 and 1.   normalize float normalize(float x)   vec2 normalize(vec2 x)   vec3 normalize(vec3 x)   vec4 normali">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-23T06:43:15.000Z">
+<meta property="article:modified_time" content="2022-06-23T07:55:51.233Z">
 <meta property="article:author" content="paperlens">
+<meta property="article:tag" content="渲染">
+<meta property="article:tag" content="Shader">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://paperlens02.github.io/paperlens.github.io/archives/2022/06/page/2/">
+<link rel="canonical" href="https://paperlens02.github.io/paperlens.github.io/2022/06/23/ShaderTips/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | Paper</title>
+  <title>ShaderTips | Paper</title>
   
 
 
@@ -147,114 +151,126 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 14 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/23/ShaderTips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/paperlens.github.io/img/head.jpg">
+      <meta itemprop="name" content="paperlens">
+      <meta itemprop="description" content="一个一个一个一个一个一个一个">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paper">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ShaderTips
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-23 14:43:15 / 修改时间：15:55:51" itemprop="dateCreated datePublished" datetime="2022-06-23T14:43:15+08:00">2022-06-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+        <h1 id="方法-x2F-函数-x2F-库"><a href="#方法-x2F-函数-x2F-库" class="headerlink" title="方法&#x2F;函数&#x2F;库"></a>方法&#x2F;函数&#x2F;库</h1><table>
+<thead>
+<tr>
+<th>.</th>
+<th>.</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>saturate</td>
+<td>Saturate is a function that clamps it’s input between 0 and 1.</td>
+</tr>
+<tr>
+<td>normalize</td>
+<td>float normalize(float x)  <br> vec2 normalize(vec2 x)  <br> vec3 normalize(vec3 x)  <br> vec4 normalize(vec4 x)<br> normalize() returns a vector with the same direction as its parameter, x, but with length 1.</td>
+</tr>
+<tr>
+<td>dot</td>
+<td>点乘。 <br> float dot(float x, float y)  <br> float dot(vec2 x, vec2 y)  <br> float dot(vec3 x, vec3 y)  <br> float dot(vec4 x, vec4 y)<br> dot() returns the dot product of two vectors, x and y. i.e., x[0]⋅y[0]+x[1]⋅y[1]+… If x and y are the same the square root of the dot product is equivalent to the length of the vector. The input parameters can be floating scalars or float vectors. In case of floating scalars the dot function is trivial and returns the product of x and y.</td>
+</tr>
+<tr>
+<td>pow</td>
+<td>pow(x, y) x的y次幂</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42115447/article/details/103934503">URPHLSL库函数</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html">Unity Built-in shader variables</a></p>
+<h1 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Motarookie/article/details/125048328">世界空间 模型空间 观察空间 投影空间</a><br>UNITY_MATRIX_MVP  模型空间–M–&gt;世界空间–V–&gt;观察空间–P–&gt;裁剪空间</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Ling_SevoL_Y/article/details/120203081">SV_POSITION vs POSITION</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/158633488">NormalMap法线贴图</a></p>
+<h1 id="经验性方法-x2F-其他项目经验类方法"><a href="#经验性方法-x2F-其他项目经验类方法" class="headerlink" title="经验性方法&#x2F;其他项目经验类方法"></a>经验性方法&#x2F;其他项目经验类方法</h1>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-06-20T14:23:07+08:00"
-              content="2022-06-20">
-          06-20
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/paperlens.github.io/tags/%E6%B8%B2%E6%9F%93/" rel="tag"># 渲染</a>
+              <a href="/paperlens.github.io/tags/Shader/" rel="tag"># Shader</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/paperlens.github.io/2022/06/20/%E5%9F%BA%E7%A1%80%E6%96%B9%E6%A1%88/" itemprop="url">
-            <span itemprop="name">基础方案</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-06-20T14:21:55+08:00"
-              content="2022-06-20">
-          06-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/paperlens.github.io/2022/06/20/hexo%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" itemprop="url">
-            <span itemprop="name">hexo环境配置</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-06-20T11:33:33+08:00"
-              content="2022-06-20">
-          06-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/paperlens.github.io/2022/06/20/%E5%85%89%E7%85%A7%E8%B4%B4%E5%9B%BE%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%8F%8A%E8%B8%A9%E5%9D%91/" itemprop="url">
-            <span itemprop="name">光照贴图动态加载及踩坑</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-06-20T11:08:47+08:00"
-              content="2022-06-20">
-          06-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/paperlens.github.io/2022/06/20/hexo%E7%9B%B8%E5%85%B3%E5%A4%96%E9%93%BE/" itemprop="url">
-            <span itemprop="name">hexo相关外链</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
+        
 
 
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/paperlens.github.io/2022/06/21/UIToolKit%E9%A2%84%E7%A0%94/" rel="prev" title="UIToolKit预研">
+      <i class="fa fa-chevron-left"></i> UIToolKit预研
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/paperlens.github.io/2022/06/24/%E5%BC%80%E5%8F%91%E8%AE%A1%E5%88%92/" rel="next" title="开发计划">
+      开发计划 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-  </div>
+      </footer>
+    
+  </article>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/paperlens.github.io/archives/2022/06/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/paperlens.github.io/archives/2022/06/">1</a><span class="page-number current">2</span>
-  </nav>
 
 
 
@@ -306,6 +322,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%B3%95-x2F-%E5%87%BD%E6%95%B0-x2F-%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">方法&#x2F;函数&#x2F;库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tips"><span class="nav-number">2.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%8F%E9%AA%8C%E6%80%A7%E6%96%B9%E6%B3%95-x2F-%E5%85%B6%E4%BB%96%E9%A1%B9%E7%9B%AE%E7%BB%8F%E9%AA%8C%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">经验性方法&#x2F;其他项目经验类方法</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
