@@ -184,7 +184,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-15 12:28:28" itemprop="dateModified" datetime="2022-07-15T12:28:28+08:00">2022-07-15</time>
+                <time title="修改时间：2022-07-20 14:17:33" itemprop="dateModified" datetime="2022-07-20T14:17:33+08:00">2022-07-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -287,6 +287,97 @@
 </li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+<h3 id="buff表-效果类型"><a href="#buff表-效果类型" class="headerlink" title="buff表-效果类型"></a>buff表-效果类型</h3><ul>
+<li>新增<strong>14-每次被编辑A属性时额外编辑B属性</strong>（类似9，特殊效果）<ul>
+<li>效果参数配置格式为”A属性名,A属性编辑值的要求,B属性名(精确到_abs),B属性编辑值(支持配置为公式)”</li>
+<li>与效果类型9的差别: 9为”主动编辑他人属性”时，即在实际属性编辑之前就将属性id转化掉了；14为”收到属性编辑”时，即在实际属性编辑完成后，再根据编辑结果额外添加内容<ul>
+<li>例1：实际被编辑的是max_health，但因为同时影响了health属性，同样会满足条件</li>
+<li>例2：实际编辑health属性时因为有护盾，最终没能影响health属性，不满足条件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>新增<strong>15-每次调用属性时按条件加成</strong>（特殊效果）<ul>
+<li>效果参数配置格式为”属性名,条件,加成公式”</li>
+</ul>
+</li>
+<li>新增<strong>16-受到伤害时获得新buff</strong>（buff时机id6，特殊效果）<ul>
+<li>效果参数配置格式为”buffid,buff概率,buff层数”，暂不支持用|分隔配置多个</li>
+</ul>
+</li>
+<li>新增<strong>17-堆叠n次后触发属性加成</strong>（类似12，特殊效果）<ul>
+<li>效果参数配置格式为”触发次数，属性名，加成值”</li>
+</ul>
+</li>
+<li>新增<strong>18-行动开始时受到物理伤害</strong>（buff时机id1，一次性效果表id5）</li>
+<li>新增<strong>19-回合结束时受到自然伤害</strong>（buff时机id4，一次性效果表id13）</li>
+</ul>
+<h3 id="技能表-触发时机"><a href="#技能表-触发时机" class="headerlink" title="技能表-触发时机"></a>技能表-触发时机</h3><ul>
+<li>新增<strong>4-自身释放技能后</strong></li>
+<li>新增<strong>5-为友方回复后</strong></li>
+<li>新增<strong>6-自身护盾消失后</strong></li>
+<li>新增<strong>7-对敌方单位造成伤害后</strong></li>
+<li>新增<strong>8-触发弱点效果后</strong></li>
+<li>新增<strong>9-击杀敌方单位后</strong></li>
+<li>新增<strong>10-自身受到伤害后</strong></li>
+</ul>
+<h3 id="Action表-目标范围"><a href="#Action表-目标范围" class="headerlink" title="Action表-目标范围"></a>Action表-目标范围</h3><ul>
+<li>新增<strong>15.触发技能的触发源中的目标</strong></li>
+</ul>
+<h3 id="实际配置"><a href="#实际配置" class="headerlink" title="实际配置"></a>实际配置</h3><ul>
+<li>每次释放技能时，攻击力提升5%，最多可以委加5层, 持续整场战斗<ul>
+<li>配置触发类技能，触发时机为<strong>4-自身释放技能后</strong>，Action效果为添加Buff，Buff配堆叠上限</li>
+<li>注：单位死亡等特殊情况这个buff会被清理掉</li>
+</ul>
+</li>
+<li>为受到自身治疗的单位提升20%基础攻击力，持续2回合，不可叠加<ul>
+<li>配置触发类技能，触发时机为<strong>5-为友方回复后</strong>，Action目标范围为<strong>15.触发技能的触发源中的目标</strong>，Action效果为添加Buff</li>
+<li>需要注意的是这属于触发技能，需要依照技能排序；若实际触发技能执行时找不到原目标，则跳过</li>
+</ul>
+</li>
+<li>自身护盾消失时立刻回复1点bp<ul>
+<li>配置触发类技能，触发时机为<strong>5-自身护盾消失后</strong>，配置触发类技能即可</li>
+</ul>
+</li>
+<li>在对敌方单位造成伤害时，有20%的概率降低该单位5%的魔法防御力，持续2回合(效果可叠加)<ul>
+<li>配置触发类技能，触发时机为<strong>6-对敌方单位造成伤害后</strong>，Action目标范围为<strong>15.触发技能的触发源中的目标</strong></li>
+</ul>
+</li>
+<li>每次触发弱点效果后，提高自身10%的攻击力，持续2回合(效果可叠加)<ul>
+<li>配置触发类技能，触发时机为<strong>7-触发弱点效果后</strong></li>
+<li>需要注意的是，每一个施法者（即配置中的a）被判定为为该单位的元素反应技能都会执行触发。</li>
+</ul>
+</li>
+<li>每次释放技能后，会返还该技能所消耗的BP的1&#x2F;4<ul>
+<li>配置触发类技能，触发时机为<strong>4-自身释放技能后</strong></li>
+</ul>
+</li>
+<li>自身攻击造成敌方单位死亡后，提升自身15%的攻击力，持续2回合<ul>
+<li>配置触发类技能，触发时机为<strong>8-击杀敌方单位后</strong></li>
+<li>只要造成死亡的效果中的施法者（即配置中的a）为自身，就会触发</li>
+</ul>
+</li>
+<li>每次释放技能后, 对敌方生命值最低的单位造成攻击力90%的自然元素伤害<ul>
+<li>配置触发类技能，触发时机为<strong>4-自身释放技能后</strong></li>
+</ul>
+</li>
+<li>在自身受到伤害时，为自己回复攻击力40%的生命值<ul>
+<li>配置被动技能，为自身上永久buff</li>
+<li>buff效果类型为<strong>14-每次被编辑A属性时额外编辑B属性</strong>  效果参数为”health,value&lt;0,health_abs,b.attack*0.4”</li>
+</ul>
+</li>
+<li>当自身生命值高于70%时，攻击力提高20%<ul>
+<li>配置被动技能，为自身上永久buff</li>
+<li>buff效果类型为<strong>15-每次调用属性时按条件加成</strong>  效果参数为”attack,b.health&#x2F;b.max_health&gt;0.7,”</li>
+</ul>
+</li>
+<li>每次受到伤害时，积攒1层怒气，怒气到达5层时，清空所有怒气，并且伤害提高100% (伤害提高100%的效果持续2回合)<ul>
+<li>配置被动技能，为自身上永久buff</li>
+<li>buff效果类型为<strong>16-受到伤害时获得新buff</strong>，效果参数如”怒气buffid,1,1”</li>
+<li>配置怒气buff，怒气buff效果类型为<strong>17-堆叠n次后触发属性加成</strong>，效果参数如”5,damage_abs,1”</li>
 </ul>
 </li>
 </ul>
@@ -1293,6 +1384,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/23/%E6%B8%B2%E6%9F%93%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/paperlens.github.io/img/head.jpg">
+      <meta itemprop="name" content="paperlens">
+      <meta itemprop="description" content="一个一个一个一个一个一个一个">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Paper">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/paperlens.github.io/2022/06/23/%E6%B8%B2%E6%9F%93%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">渲染实战记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-23 14:43:15" itemprop="dateCreated datePublished" datetime="2022-06-23T14:43:15+08:00">2022-06-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-03 16:27:12" itemprop="dateModified" datetime="2022-11-03T16:27:12+08:00">2022-11-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/21/UIToolKit%E9%A2%84%E7%A0%94/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1435,81 +1603,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://paperlens02.github.io/paperlens.github.io/2022/06/21/%E5%9C%BA%E6%99%AF%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/paperlens.github.io/img/head.jpg">
-      <meta itemprop="name" content="paperlens">
-      <meta itemprop="description" content="一个一个一个一个一个一个一个">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Paper">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/paperlens.github.io/2022/06/21/%E5%9C%BA%E6%99%AF%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">场景框架搭建</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-21 15:52:57 / 修改时间：16:01:24" itemprop="dateCreated datePublished" datetime="2022-06-21T15:52:57+08:00">2022-06-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/paperlens.github.io/categories/%E6%8A%80%E6%9C%AF/%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">设计</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1581,7 +1674,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/paperlens.github.io/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1592,7 +1685,7 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
