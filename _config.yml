@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Paper
-subtitle: '也就是说'
-description: '一个一个一个一个一个一个一个'
+title: title
+subtitle: 'subtitle'
+description: 'description'
 keywords:
-author: paperlens
+author: toothgeo
 language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://paperlens02.github.io/paperlens.github.io/
+url: https://toothgeo.github.io/toothgeo.github.io/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -103,5 +103,5 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repository: https://github.com/paperlens02/paperlens.github.io.git
+  repository: https://github.com/toothgeo/toothgeo.github.io.git
   branch: main
